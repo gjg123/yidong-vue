@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<link rel="stylesheet" type="text/css" href="component/tabbar.css"/>
+		<style type="text/css">
+				*{
+				padding: 0;
+				margin: 0;
+			}
+			ul{
+				list-style: none;
+			}
+			a{
+				text-decoration: none;
+			}
+			.category{
+				text-align: center;
+			}
+			.tab-view-cell img{
+				width:100%;
+			}
+			.t img{
+				width:100%;
+				opacity: 0;
+			}
+			.content{
+				margin-top:44px;
+			}
+			.forward{
+				color:#ccc;
+				margin-bottom:10px;
+			}
+			.subtitle{
+				margin-bottom:10px;
+			}
+			#hhs{
+				padding: 10px;
+			}
+		</style>
+		<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+	<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script src="component/tabbar.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+		
+		<!--	导航栏-->
+
+											<navigation left-path="search.html" left-img="img/search.png" title="影视" right-img="img/user.png" right-path="login.html"></navigation>	
+						
+						
+						
+			<div class="content" >
+				<!--<p class="t"><img src="images/FkjF3uJbpIOZru0zJttti44J-FM8.jpg"/></p>-->
+				<div class="tab-view-cell" v-for="item in list" v-on:click="dealClick(item.category,item.id)">
+										<p class="category"> -{{ {'1':'阅读','4':'音乐','5':'影视'} [item.category]}} -</p>
+					<p id="hhs">{{item.title}}</p>
+					
+					<p><img v-bind:src="imagePrefix+item.img_url" alt="" /></p>
+					<p class="subtitle"><<{{item.subtitle}}>></p>
+					<p class="forward">{{item.forward}}</p>
+				</div>
+			</div>			
+						
+						
+						
+						
+						
+						
+						
+	<!--	底部	-->			
+		<tabbar active-index="3"></tabbar>				
+						
+						
+		</div>
+	</body>
+	
+	<script type="text/javascript">
+		
+		var data={
+		
+			list:[],
+			imagePrefix:imagePrefix,
+			start:0,
+			count:10,
+			isRefresh:false
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			methods:{
+				//点击后会切换的函数  里面传2个参数   序号 和  id 名
+				dealClick:function(category,id){
+					//函数里面是个对象
+					var dict={
+						"1":"readDetail.html",
+						"4":"musicDetail.html",
+						"5":"movieDetail.html",
+					}
+					//把id号  存储到会话存储中
+					sessionStorage.id=id;
+					//打开西的页面
+					location.href=dict[category]
+				},
+				//下载函数              
+				downloadData:function(){
+					//加载数据的路径     是阅读页的前缀加上    开始加载的位置this.start 和个数  this.count
+					var url=movieListUrl+"&start="+this.start+"&count="+this.count;
+					//下载数据
+							this.$http({url:url}).then(function(r){
+							var jsonString=r.data;
+							var list=r.data.data;
+							this.list=this.list.concat(list);
+							
+							this.isRefresh=false;
+							for (var i=0;i<list.length;i++){
+								var item=list[i];
+					//			console.log(item)
+							}
+						})
+				},
+				//点击事件的函数
+				dealScroll:function(){
+					//保存this的值    否则在函数里面会有变化
+					var self=this;
+					//入口函数   加载顺序
+					window.onload=function(){
+						//滚动事件
+						window.onscroll=function(){
+							//滚动的距离
+							var scrollTop=document.body.scrollTop;
+							//可是区域的高度   页面对应的高度
+							var clientHeight=document.documentElement.clientHeight;
+							//页面的总高度
+							var pageHeight=document.body.scrollHeight;
+					//		console.log("st"+scrollTop+"sc"+clientHeight+"ph"+pageHeight)
+							//如果页面滑到底部了
+							if (pageHeight-clientHeight-scrollTop<=2){
+								//如果变量isRefressh  不为假   也就是为真的时候    
+								if (!this.isRefresh){
+									//加载开始的位置
+									self.start += self.count;
+									self.downloadData();
+									
+									self.isRefresh = true;
+								}
+							}
+						}
+					}
+				}
+			},
+			created:function(){
+		/*		var url = movieDetailUrl+"&id="+this.id;
+		
+				this.$http({url:movieListUrl}).then(function(r){
+					var jsonString=r.data;
+					var list=r.data.data;
+					this.list=list;
+					for (var i=0;i<list.length;i++){
+						var item=list[i];
+						console.log(item)
+					}
+				})*/
+				
+			this.downloadData();
+				this.dealScroll()	
+				
+				
+			}
+		})
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</script>
+</html>

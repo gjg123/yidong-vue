@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="component/navigation.css" />
+		<link rel="stylesheet" type="text/css" href="component/tabbar.css" />
+		<style type="text/css">
+		 	* {
+		 		padding: 0;
+		 		margin: 0;
+		 	}
+		 	
+		 	.imgs {
+		 		width: 400px;
+		 		height: 400px;
+		 		text-align: center;
+		 		/*padding: 20px;*/
+		 		/* box-sizing: border-box;*/
+		 	}
+		 	
+		 	.page-content {
+		 		margin: 44px 0 50px 0;
+		 	}
+		 	
+		 	.imgs img {
+		 		width: 100%;
+		 		height: 100%;
+		 		border-radius: 50%;
+		 		animation: z 10s linear infinite;
+
+		 	}
+		 	
+		 	@keyframes z {
+		 		0% {
+		 			transform: rotate(0deg);
+		 		}		 	50% {
+		 		transform: rotate(180deg);
+		 	}
+		 	100% {
+		 		transform: rotate(360deg);
+		 	}
+		 }
+		 
+		 .audio {
+		 	width: 100%;
+		 	height: 50px;
+		 	margin: 10px;
+		 }
+		 .toolbar{
+				position: fixed;
+				
+				bottom: 0px;
+				width: 100%;
+				height: 30px;
+				background-color: #f1f1f1;
+				border-top: 1px solid #ccc;
+				
+				font-size: 13px;
+				line-height: 25px;
+			}
+			.toolbar img{
+				width: 25px;
+				height: 25px;
+			}
+			.toolbar span{
+				float: left;
+			}
+			.fenxiang{
+				width:100%;
+				height:600px;
+				background-color:white;
+				
+				position: fixed;
+				top:0;
+				left:0;
+			}
+			.content{
+				width:100%;
+				height:40%;
+				
+				padding:10px;
+			}
+			.tub{
+				width:100%;
+				height:50%;
+				background-color:#ccc;
+				border-top:2px solid #ccc;
+				border-bottom:2px solid #ccc;
+				padding:10px;
+				box-sizing: border-box;
+				
+			}
+			.ww{
+				text-align: center;
+				width:20%;
+				height:50%;
+				float:left;
+			}
+			.ww img{
+				width:70%;
+				height:60%;
+			}
+				.qu{
+				width:100%;
+				height:10%;
+				color:red;
+				font-size: 25px;
+				font-weight: bold;
+				text-align: center;
+				line-height: 185%;
+			}
+				.pinlun{
+				position: absolute;
+				top:0;
+				left:0;
+				width:100%;
+				
+				background-color:white;
+				margin-top:46px;
+				margin-bottom:50px;
+				z-index: 2222;
+			}
+			.tou{
+				padding: 10px;
+			}
+			.yi{
+				width:100px;
+				height:30px;
+				line-height: 30px;
+				text-align: left;
+			}
+			.hei{
+				background-color:black;
+				width:100px;
+				height:10px;
+			}
+			.llt{
+				float:left;
+				line-height: 50px;
+			}
+			.rrt{
+				float:right;
+				height:50px;
+				line-height: 50px;
+				text-align: center;
+				padding-right: 20px;
+			}
+			.tit img{
+				width:50px;
+				height:50px;
+				
+			}
+			.tit{
+				height:50px;
+				width:100%;
+				line-height: 50px;
+			}
+			.dibu{
+				padding:0 20px;
+				margin:20px 0;
+			}
+			.btns{
+				width:100%;
+			
+			
+				background-color:springgreen;
+			}
+			.btns button{
+				width:100%;
+				height:50px;
+				text-align: center;
+				line-height: 50px;
+				font-size: 24px;
+				color:red;
+				background-color:#ccc;
+				outline: none;
+			
+			}
+			.lim{
+				width:100%;
+				height:200px;
+				background-color:white;
+				position: fixed;
+				bottom:100px;
+				left:0px;
+				padding: 20px;
+				box-sizing: border-box;
+			}
+			.zhezhao{
+				width:100%;
+				height:50%;
+				background-color:#ccc;
+				position: fixed;
+				top:0;
+				opacity: 0.8;
+				z-index: 1111;
+			}
+			.comment-area{
+				width:100%;
+				height:50%;
+				background-color:red;
+				position: fixed;
+				bottom:0px;
+				left:0px;
+			/*	padding: 20px;*/
+				
+			}
+			.comment-area textarea{
+				width:100%;
+				height:250px;
+				padding: 20px;
+			}
+			.comment-btn{
+				
+				position: absolute;
+				bottom:50px;
+				right:20px;
+				height:30px;
+			}
+			.comment-btn button{
+				margin-right:20px;
+			
+				width:100px;
+				border: none;
+				outline: none;
+				height:30px;
+				background-color:#999;
+			}
+		 </style>
+	</head>
+
+	<body>
+		<div id="app">
+		<!--	头部导航-->
+			<navigation left-path="javascript:history.back()" left-img="img/aliwx_common_back_btn_normal.png" title="音乐详情" right-img="img/user.png"></navigation>
+		
+			<div class="page-content">
+				<!--	音乐播放器-->
+				<div class="audio">
+					<audio v-bind:src="imagePrefix+item.media_url" controls="controls" v-on:play="dealPlay()" v-on:pause-="dealPause()"></audio>
+				</div>
+				<p class="title">{{item.title}}</p>
+				<p class="author">作者:{{item.author_name}}</p>
+				<p class="imgs"><img v-bind:src="imagePrefix+item.cover" alt="" /></p>
+				<!--给页面添加绑定  内容-->
+				<p class="item-content" v-html="item.hp_content"></p>
+			</div>
+			
+				<div class="fenxiang" v-show="isShow">
+					<div class="content">
+						
+						
+					</div>
+					<div class="tub">
+						<div class="ww">
+							<p><img src="img/wechat_firend.jpg"/></p>
+							<p>微信朋友圈</p>
+						</div>
+						<div class="ww">
+							<p><img src="img/wechat.jpg"/></p>
+							<p>微信好友</p>
+						</div>
+						<div class="ww">
+							<p><img src="img/info.jpg"/></p>
+							<p>保存二微码</p>
+						</div>
+						<div class="ww">
+							<p><img src="img/lj.jpg"/></p>
+							<p>复制链接</p>
+						</div>
+						<div class="ww">
+							<p><img src="img/QQ_zone.jpg"/></p>
+							<p>QQ空间</p>
+						</div>
+						<div class="ww">
+							<p><img src="img/QQ.jpg"/></p>
+							<p>QQ朋友</p>
+						</div><div class="ww">
+							<p><img src="img/sina.jpg"/></p>
+							<p>新浪微博</p>
+						</div>
+						<div class="ww">
+							<p><img src="img/open.jpg"/></p>
+							<p>浏览器中打开</p>
+						</div>
+						<div class="ww">
+							<p><img src="img/more.jpg"/></p>
+							<p>更多</p>
+						</div>
+						
+					</div>
+						<div class="qu">
+						取消
+					</div>
+		</div>
+			
+	
+					<!--评论列表-->
+		<div class="pinlun" v-show="isBtns" >
+			
+			<navigation title="评论列表" left-img="img/aliwx_common_back_btn_normal.png" left-path="music.html"></navigation>
+				<div class="tou">
+					<p class="yi">评论列表</p>
+					<p class="hei"></p>
+				</div>
+				<div class="con" v-for="value in list">
+					<div class="tit">
+						<p class="llt"><img src="img/QQ.jpg"/></p>
+						<p class="llt">{{value.id}}</p>
+						<p class="rrt">{{value.create_time}}</p>
+					</div>
+					<div class="dibu">
+						{{value.comment}}
+					</div>
+				</div>
+
+		</div>
+	<div class="comment-area" v-show="isComment">
+<!--							<navigation title="科目" left-img="img/aliwx_common_back_btn_normal.png" left-path="javascript:history.back()"></navigation>-->
+			<div class="zhezhao" >
+				
+			</div>			
+			<div class="">
+				<textarea name="comment" rows="" cols="" placeholder="在这里写下你想要的" v-model="comment"></textarea>
+				<div class="comment-btn">
+						<a href="musicDetail.html"><button>取消</button></a>
+					<button v-on:click="dealBtnClick">发布</button>
+				</div>
+			</div>	
+			
+	
+	</div>
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<div class="toolbar">
+				<span>收藏</span>
+				<span><img v-on:click="dealCollect" v-bind:src="isCollect?'img/stow_selected.png':'img/stow_default.png'"/></span> 
+				<span>点赞</span>
+				<span><img  v-on:click="dealGood"  v-bind:src="isGood?'img/bottom_laud_selected.png':'img/bottom_laud_default.png'"/></span>
+				<span>分享</span>
+				<span><img src="img/small_08.png" v-on:click="dealClick"/></span> 
+				<span>评论</span>
+				<span><img src="img/bottom_comment.png" v-on:click="dealLickComment"/></span>
+			</div>
+			<!--底导航部-->
+		<!--	<tabbar active-index="1"></tabbar>-->
+
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/base64/base64.js" type="text/javascript" charset="utf-8"></script>
+	<script src="component/tabbar.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var data = {
+			comment:"",
+			id: 0,
+			item: {},
+			imagePrefix: imagePrefix,//定义图片前缀
+			isGood:false,//点赞是否显示的图片
+			isCollect:false,//收藏是否显示的图片
+			isShow:false,//分享区域是否显示
+			isComment:false,//评论区域是否显示
+			isBtns:false,//发布的评论列表是否显示
+			list:[]
+		}
+		var app = new Vue({
+			el: "#app",
+			data: data,
+			methods:{
+					dealClick:function(){
+					this.isShow=!this.isShow;
+				},
+				dealLickComment:function(){
+					this.isComment=!this.isComment;
+				},
+				dealBtnClick:function(){
+				
+					this.isBtns=!this.isBtns;
+				},
+				dealIsGood:function(){
+					if (localStorage.isLogin == "true"){
+						var userId=localStorage.userId;
+						var itemId = sessionStorage.id;
+						var url = isGoodUrl+"&userId="+userId+"&itemId="+itemId;
+						this.$http({url:url}).then(function (response) {
+								var jsonObject = response.data;
+								
+							//	console.log("jsonString="+JSON.stringify(jsonObject))
+								var isGood = jsonObject.data.isGood;
+								if(isGood == "true"){
+									this.isGood = true;
+								}
+								else{
+									this.isGood = false;
+								}
+								
+							})
+					}
+				},
+				dealAddGood:function(){
+						var userId = localStorage.userId;
+						var itemId = sessionStorage.id;
+						var type = this.item.category;
+						var url = addGoodUrl+"&userId="+userId+"&itemId="+itemId+"&type="+type;
+							this.$http({url:url}).then(function (response) {
+								var jsonObject = response.data;
+								
+							//	console.log("jsonString="+JSON.stringify(jsonObject))
+								var code = jsonObject.code;
+								console.log(jsonObject)
+								if(code == 0){
+									this.isGood = true;
+								}
+								else{
+									alert("取消点赞失败 desc="+jsonObject.desc)
+								}
+								
+							})
+				},
+				dealCancelGood:function(){
+						var userId = localStorage.userId;
+						var itemId = sessionStorage.id;
+						var url = cancelGoodUrl+"&userId="+userId+"&itemId="+itemId;
+						this.$http({url:url}).then(function (response) {
+							var jsonObject = response.data;
+							
+							console.log("jsonString="+JSON.stringify(jsonObject))
+							var code = jsonObject.code;
+							if(code == 0){
+								this.isGood = false;
+							}
+							else{
+								alert("取消收藏失败 desc="+jsonObject.desc)
+							}
+							
+						})
+					},
+					dealGood:function(){
+						var isLogin = localStorage.isLogin;
+						
+						//localStorage只能存字符串
+						//localStorage.setItem()
+						if(isLogin == "true"){
+							//alert("colll")
+							
+							//如果收藏了,取消收藏
+							if(this.isGood){
+								this.dealCancelGood();
+								alert("您取消了点赞")
+							}
+						
+							//如果没有收藏, 那么收藏
+							else{
+								this.dealAddGood();
+								alert("您点赞成功了")
+							}
+						}
+						else{
+							alert("您没有登录,请先登录再收藏")
+						}
+					},
+								//判断是否收藏
+			dealIsCollect:function(){
+						
+						//获取是否收藏
+						if(localStorage.isLogin == "true"){
+							var userId = localStorage.userId;
+							var itemId = sessionStorage.id;
+							var url = isFavoriteUrl+"&userId="+userId+"&itemId="+itemId;
+							this.$http({url:url}).then(function (response) {
+								var jsonObject = response.data;
+								
+							//	console.log("jsonString="+JSON.stringify(jsonObject))
+								var isCollect = jsonObject.data.isFavorite;
+								if(isCollect == "true"){
+									this.isCollect = true;
+								}
+								else{
+									this.isCollect = false;
+								}
+								
+							})
+						}
+					},
+				//添加收藏
+				dealAddCollect:function(){
+						//取消收藏
+						var userId = localStorage.userId;
+						var itemId = sessionStorage.id;
+						var type = this.item.category;
+						var url = saveFavoriteUrl+"&userId="+userId+"&itemId="+itemId+"&type="+type;
+						this.$http({url:url}).then(function (response) {
+							var jsonObject = response.data;
+							
+							console.log("jsonString="+JSON.stringify(jsonObject))
+							var code = jsonObject.code;
+							if(code == 0){
+								this.isCollect = true;
+							}
+							else{
+								alert("收藏 失败 desc="+jsonObject.desc)
+							}
+							
+						})
+					},
+				
+					
+					
+					//取消收藏
+					dealCancelCollect:function(){
+						//取消收藏
+						var userId = localStorage.userId;
+						var itemId = sessionStorage.id;
+						var url = cancelFavoriteUrl+"&userId="+userId+"&itemId="+itemId;
+						this.$http({url:url}).then(function (response) {
+							var jsonObject = response.data;
+							
+							console.log("jsonString="+JSON.stringify(jsonObject))
+							var code = jsonObject.code;
+							if(code == 0){
+								this.isCollect = false;
+							}
+							else{
+								alert("取消收藏失败 desc="+jsonObject.desc)
+							}
+							
+						})
+					},
+					
+				
+					//按钮点击
+					dealCollect:function(){
+						var isLogin = localStorage.isLogin;
+						
+						//localStorage只能存字符串
+						//localStorage.setItem()
+						if(isLogin == "true"){
+							//alert("colll")
+							
+							//如果收藏了,取消收藏
+							if(this.isCollect){
+								this.dealCancelCollect();
+								alert("您取消了收藏")
+							}
+						
+							//如果没有收藏, 那么收藏
+							else{
+								this.dealAddCollect();
+								alert("您收藏成功了")
+							}
+						}
+						else{
+							alert("您没有登录,请先登录再收藏")
+						}
+					}
+				
+			},
+			//实例或组件初始化执行的函数
+			created: function() {
+				//从会话存储中拿到保存的id 
+				this.id = sessionStorage.id;
+				//把拿到的id拼接到   下载的音乐列表的数据的后面
+				var url = musicDetailUrl + "&id=" + this.id;
+
+				this.$http({ url: url }).then(function(r) {
+					var jsonString = r.data;
+					var item = r.data.data;
+					//解码数据
+					var base64 = new Base64();
+					var str = base64.decode(item.story);
+					//赋值
+					item.hp_content = str;
+
+					this.item = item
+				})
+				
+				this.dealIsGood();
+				this.dealIsCollect();
+				
+									
+					
+					 //    添加评论接口http://192.168.0.3/project/artist-v2/api/index.php?m=comment&a=addComment&userId=1&itemId=10813&comment=aaaa					
+					var userId = localStorage.userId;
+					var itemId = sessionStorage.id;
+					var comment=this.comment;
+					console.log(comment)
+					var url=addCommentUrl+"&userId="+userId+"&itemId="+itemId+"&comment="+comment;
+					this.$http({url:url}).then(function(response){
+						var jsonObject=response.data;
+						var item=jsonObject.data;
+						console.log(jsonObject)
+					});
+					
+					
+					
+					
+					
+					
+					
+					
+			//获取评论接口		
+//	http://192.168.0.3/project/artist-v2/api/index.php?m=comment&a=getComment&itemId=10813
+					
+					var itemId = sessionStorage.id;
+					var url=getCommentUrl+"&itemId="+itemId
+					this.$http({url:url}).then(function(response){
+						var jsonObject=response.data;
+						var list=jsonObject.data;
+						console.log(jsonObject)
+						
+						 this.list=list;
+						 for (var i=0;i<list.length;i++){
+						var value=list[i];
+				//		console.log(value)
+					}
+					//	console.log();
+					});
+
+					
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+		})
+	</script>
+
+</html>

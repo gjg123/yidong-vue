@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<style type="text/css">
+			*{
+				
+				padding: 0;
+				margin: 0;
+			}
+			.head-image{
+				width: 100px;
+				height: 100px;
+				background-color: #eee;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="">
+				<div class="">
+					<img class="head-image" v-bind:src="src"/><br>
+						<input id="headImageTag" type="file" name="" id="" value="" v-on:change="dealChange" multiple="multiple"/>
+				</div>
+				<div class="">
+					<button v-on:click="dealUploadImage">修改头像</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+	<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var data={
+			src:""
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			methods:{
+					dealUploadImage:function(){
+						
+						//A.获取图片输入框
+						var tag = document.getElementById("headImageTag");
+						
+						
+						//B.获取选择的文件,图片
+						//input file类型的标签中, 所有的文件放在files属性中, 这个属性是个数组
+						//alert( tag.files.length)
+						if(tag.files.length == 0){
+							alert("没有选择图片")
+							return
+						}
+						var uploadFile = tag.files[0];
+						
+						
+						//没有form, 造一个form
+						//C.生成FormData. 生成了form表单
+						var formData = new FormData();
+						formData.append("m","user")
+						formData.append("a","changeHeadImage")
+						formData.append("userId","1")
+						formData.append("newHeadImage",uploadFile);
+						
+						
+						//D.发起post请求
+						var url = changeHeadImageUrl;
+						this.$http.post(url,formData,function () {
+							
+						}).then(function (r) {
+							
+							var jsonObject = r.data;
+							console.log("data = "+JSON.stringify(jsonObject))
+							
+							//项目开发中
+							//发起一个请求: 获取用户信息
+							//	userInfoUrl
+							//	用接口中image修改localStorage中的image
+							
+						})
+						
+						
+					},
+					dealChange:function(){
+						//alert("change")
+						
+						//A.获取图片输入框
+						var tag = document.getElementById("headImageTag");
+						
+						//B.获取选择的文件,图片
+						//input file类型的标签中, 所有的文件放在files属性中, 这个属性是个数组
+						//alert( tag.files.length)
+						if(tag.files.length == 0){
+							alert("没有选择图片")
+							return
+						}
+						var uploadFile = tag.files[0];
+						
+						//C.从文件对象获取本地路径src
+						var src = window.URL.createObjectURL(uploadFile)
+						//blob:http://127.0.0.1:A8020/6cc769b4-721b-42bf-92fc-07bf0543d3aa
+						console.log(src)
+						
+						//D.显示图片
+						this.src = src
+					}
+				}
+		})
+	</script>
+</html>

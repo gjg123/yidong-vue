@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+				<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<link rel="stylesheet" type="text/css" href="component/tabbar.css"/>
+		<style type="text/css">
+			.title{
+				margin:50px 0 50px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<navigation title="音乐收藏" left-img="img/aliwx_common_back_btn_normal.png" left-path="javascript:history.back()" ridht-path="user.html"></navigation>
+			
+			
+			
+<div class="page-content">
+	<div v-for="item in list" v-on:click="dealClick(item.category,item.id)" class="table-view-cell">
+		<div class="title">
+			<p >{{item.title}}</p>
+			<p >{{item.author_name}}</p>
+			<p ><img v-bind:src="imagePrefix+item.cover"/></p>
+		</div>
+	</div>
+</div>
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+	</body>
+<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+	<script type="text/javascript">
+		var data={
+			list:[],
+			imagePrefix:imagePrefix
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			methods:{
+					dealClick:function (category,id) {
+						
+						var dict = {
+							"1":"readDetail.html",
+							"4":"musicDetail.html",
+							"5":"movieDetail.html"
+						}
+						
+						//传值
+						//	cookie, url, sessionStorage
+						sessionStorage.id = id;
+						
+						location.href = dict[category]
+						
+					}
+				},
+				
+				
+				created:function () {
+					var userId = localStorage.userId;
+					var url = getFavoriteUrl+"&userId="+userId+"&type=4"
+					this.$http({url:url}).then(function (response) {
+						var jsonObject = response.data;
+						//console.log("jsonString="+jsonString)
+						//console.log("jsonString="+JSON.stringify(jsonString))
+						
+						
+						var list = jsonObject.data;
+						
+						this.list = list;
+						
+						//console.table(list)
+						for(var i=0;i<list.length;i++){
+							var item = list[i];
+							console.table("title = "+item.title)
+						}
+					})
+
+					
+}
+		})
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</script>
+</html>

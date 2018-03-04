@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			a{
+				text-decoration: none;
+			}
+			.list p{
+				margin-left:20px;
+				height:30px;
+			
+				line-height: 30px;
+			}
+			.imgs{
+				margin-bottom: 10px;
+				
+			}
+			.list{
+				margin-bottom: 20px;
+				background-color:white;
+			}
+			.content{
+				background-color:#ccc;
+			}
+			.tui{
+				background-color:white;
+			}
+			.imgs img{
+				height:160px;
+				width:100%;
+			}
+			.read{
+				display: block;
+				margin-right:20px;
+				float:left;
+				width:25px ;
+				height:25px;
+				background:url(img/read.png) no-repeat;
+			}
+			.music{
+				display: block;
+				margin-right:20px;
+				float:left;
+				width:25px ;
+				height:25px;
+				background:url(img/music.png) no-repeat;
+			}
+			.movie{
+				display: block;
+				margin-right:20px;
+				float:left;
+				width:25px ;
+				height:25px;
+				background:url(img/movie.png) no-repeat;
+			}
+			.cha{
+				display: block;
+				margin-left:20px;
+				margin-right:20px;
+				float:left;
+				width:30px ;
+				height:50px;
+				background:url(img/aliwx_reply_bar_close_normal.png) no-repeat;
+				background-size: 30px 30px;
+			}
+			.tui p{
+				width:200px;
+				line-height: 30px;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div id="app">
+			<navigation title="用户主页" left-img="img/aliwx_common_back_btn_normal.png" right-img="img/user.png" left-path="javascript:history.back()"></navigation>
+			
+			
+			<div class="content">
+				<div class="imgs">
+					<img src="headImage"/>
+				</div>
+				<div class="list">
+					<p>收藏</p>
+					<p><span class="read"></span><span>阅读</span></p>
+					<p><span class="music"></span><span>音乐</span></p>
+					<p><span class="movie"></span><span>影视</span></p>
+				</div>
+				<div class="tui" v-on:click="dealLoginout">
+					<p><span class="cha"></span><span>退出登陆</span></p>
+				</div>
+			</div>
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+			<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var data={
+			headImage:"img/head.png",
+			username:""
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			created:function(){
+				this.headImage=imagePerfix+localStorage.headImage;
+				this.username=localStorage.username
+			},
+			methods:{
+				dealLoginout:function(){
+					localStorage.removeItem("isLogin");
+					location.href="login.html"
+				}
+			}
+		})
+		
+	</script>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+
+		<style type="text/css">
+			.page-content{
+				margin:50px 10px 50px 10px;
+			}
+			.username input{
+				width:100%;
+				height:30px;
+				margin-top:20px;
+			}
+			
+			.login-button{
+				width:100%;
+				height:30px;
+				outline: none;
+				border:none;
+				margin-top:20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+		<!--	导航栏-->
+						<navigation title="搜索" left-img="img/aliwx_common_back_btn_normal.png" right-img="img/user.png" left-path="music.html"></navigation>
+						
+						
+						
+						
+	<div class="page-content">
+				
+				<div class="input-area">
+					<div class="username">
+						<input v-model="keyword" type="" name="" id="" value=""  placeholder="请输入搜索关键字"/>
+					</div>
+				</div>
+				
+				<div class="login-area">
+					<button class="login-button"  v-on:click="dealSearch">搜索</button>
+				</div>
+				
+			<div id="">
+					<ul>
+						<li v-for="item in list">
+							<p>{{item.title}}</p>
+							<p>{{item.forward}}</p>
+							<p><img v-bind:src="imagePrefix+item.img_url" /></p>
+						</li>
+					</ul>
+				</div>
+			</div>					
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+	<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript">
+		
+		var data={
+			userId:localStorage.userId,
+			keyword:"",
+			list:[],
+			imagePrefix:imagePrefix
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			methods:{
+				//点击搜索键
+				dealSearch:function(){
+					//如果 输入框的值为空   就提示用户 输入值
+					if (this.keyword.length==0){
+						alert("请输入关键子");
+						return;
+					}
+					//加载数据的接口  地址为     搜索页面的接口加上参数 才是完整的接口
+// http://192.168.0.3/project/artist-v2/api/index.php?m=search&a=search&userId=1&keyword=121
+// &userId=1&keyword=121
+					var url=searchUrl+"&userId="+this.userId+"&keyword="+this.keyword;
+					//获取地址    下载数据
+					this.$http.get(url).then(function(r){
+						console.log("r = "+JSON.stringify(r.data));
+						//保存数据
+					/*		var read = r.data.data.read;
+							var music = r.data.data.music;
+							var movie = r.data.data.movie;*/
+						
+							var jsonObject=r.data;
+							
+							var list = [];
+							var list=jsonObject.data;
+							//合并数组
+				/*			list = list.concat(read)
+							list = list.concat(music)
+							list = list.concat(movie)*/
+							//赋值
+							this.list = list;
+						//	this.list = list;
+					})
+				}
+			},
+			//实例或组件初始化执行的函数
+			created:function(){
+	//				下载数据
+	var url=searchUrl+"&userId="+this.userId+"&keyword="+this.keyword;
+				this.$http({url:url}).then(function(r){
+					var jsonString=r.data;
+					var list=r.data.data;
+					this.list=list;
+					for (var i=0;i<list.length;i++){
+						var item=list[i];
+						console.log(item)
+					}
+				})
+			}
+			
+		})
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</script>
+</html>

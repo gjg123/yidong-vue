@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			a{
+				text-decoration: none;
+			}
+			.box{
+				margin-top:70px;
+			}
+			.input-area{
+				margin:20px;
+				overflow: hidden;
+				border:1px solid #ccc;
+				
+				border-radius: 5px;
+			}
+			.input-area input{
+				width:100%;
+				height:30px;
+				border:none;
+				outline: none;
+				padding-left:20px ;
+				
+			}
+			.input-area .username{
+				border-bottom:1px solid #ccc;
+			}
+			.btn{
+				margin:20px;
+			}
+			.btn button{
+				width:100%;
+				height:30px;
+				border:none;
+				border-radius: 5px;
+				outline: none;
+			}
+			.more{
+				padding:0 20px;
+			}
+			.more .right{
+				
+				float:right;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div id="app">
+			<navigation title="登陆" left-img="img/aliwx_common_back_btn_normal.png" right-img="img/user.png" left-path="javascript:history.back()"></navigation>
+			
+			
+			
+		<div class="box">
+			<div class="input-area">
+				<input type="text" v-model="username" placeholder="请输入用户名" class="username"/>
+				<input type="password"  v-model="password" placeholder="请输入密码"/>
+			</div>	
+			<div class="btn">
+				<button v-on:click="dealLogin">登陆</button>
+			</div>
+			<div class="more">
+				<a href="reg.html" >免费注册</a>
+				<a href="" class="right">忘记密码</a>
+			</div>
+			
+		</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+			<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+
+			<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var data={
+			imagePrefix:imagePrefix,
+			username:"",
+			password:"",
+			isLogin:false,
+		
+			
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			methods:{
+				dealLogin:function(){
+					var username=this.username;
+					var password=this.password;
+					if (username.length==0){
+						alert("请输入用户名");
+						return;
+					}
+					if(password.length==0){
+						alert("请输入密码")
+						return;
+					}
+					var url=loginUrl+"&username="+username+"&password="+password;
+					this.$http({url:url}).then(function(response){
+						var downloadData=response.data;
+						if (downloadData.code==0){
+							localStorage.isTrue=true;
+							localStorage.mmmmmmmmmmmmmmmmmmId=downloadData.data.id;
+							localStorage.username=downloadData.data.username;
+							localStorage.headImage=downloadData.data.image;
+							localStorage.nickname=downloadData.data.nickname;
+							
+							localStorage.phone=downloadData.data.phone;
+							location.href="user.html";
+						}
+						else{
+							alert("登陆失败，请重新输入")
+						}
+					})
+				}
+			}
+		})
+		
+	</script>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<link rel="stylesheet" type="text/css" href="component/tabbar.css"/>
+		<style type="text/css">
+				*{
+				padding: 0;
+				margin: 0;
+			}
+			ul{
+				list-style: none;
+			}
+			a{
+				text-decoration: none;
+			}
+			.content{
+				width:100%;
+				margin:44px 0 50px;
+				background-color:#ccc;
+			}
+			.author{
+				font-size: 12px;
+				margin:10px 0;
+			}
+			.table-view-cell img{
+				width:100%;
+			}
+			.table-view-cell{
+				
+			}
+			.xx{
+				width:100%;
+				height:10%;
+			}
+			.table-view-cell{
+				padding: 10px;
+				background-color: #fff;
+				margin-bottom: 10px;
+				height:250px;
+				border-bottom: 1px solid #dfdfdf;
+				border-top: 1px solid #dfdfdf;
+			}
+			.title{
+				width:100%;
+			}
+			.img{
+				vertical-align: middle;
+			}
+			.fo{
+				width:100%;
+			}
+				.t img{
+				width:100%;
+				height:100%;
+			}
+			.category{
+				text-align: center;
+			}
+			.lt{
+				width:30%;
+				
+				
+				float:left;
+			}
+			.lt img{
+				border-radius: 50%;
+			
+			}
+			.rt{
+				width:70%;
+				float:right;
+				padding: 10px;
+				box-sizing: border-box;
+				height:90%;
+			}
+			.xia{
+				width:100%;
+				height:90%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+		
+		<!--	导航栏-->
+						<navigation left-path="search.html" left-img="img/search.png" title="音乐" right-img="img/user.png" right-path="login.html"></navigation>
+						
+			<div class="content" >
+				<div>
+					<div v-for="item in list"  v-on:click="dealClick(item.category,item.id)" class="table-view-cell">
+						<div class="xx">
+							<p class="category">- {{ {'1':'阅读','4':'音乐','5':'影视'}[item.category] }} -</p>
+						</div>
+						<div class="xia">
+							<div class="lt">
+							<p class="img"><img v-bind:src="imagePrefix+item.img_url" alt="" /></p>
+						</div>
+						<div class="rt">
+							<p class="title">{{item.title}}</p>
+							<p class="author">作者:{{item.author_name}}</p>
+							
+							<p class="forward">{{item.forward}}</p>
+							<p class="info">时间:{{item.post_date}} 喜欢:{{item.like_count}}</p>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>			
+						
+						
+						
+						
+						
+						
+						
+	<!--	底部	-->			
+		<tabbar active-index="2"></tabbar>				
+						
+						
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/base64/base64.js" type="text/javascript" charset="utf-8"></script>
+<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+	<script src="component/tabbar.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		var data={
+			
+			list:[],
+			imagePrefix:imagePrefix,
+			start:0,
+			count:10,
+			isRefresh:false
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			methods:{
+				dealClick:function(category,id){
+					var dict={
+						"1":"readDetail.html",
+						"4":"musicDetail.html",
+						"5":"movieDetail.html",
+					}
+					sessionStorage.id=id;
+			
+			location.href=dict[category]
+				},
+					//下载函数              
+				downloadData:function(){
+					//加载数据的路径     是阅读页的前缀加上    开始加载的位置this.start 和个数  this.count
+					var url=musicListUrl+"&start="+this.start+"&count="+this.count;
+					//下载数据
+							this.$http({url:url}).then(function(r){
+							var jsonString=r.data;
+							var list=r.data.data;
+							this.list=this.list.concat(list);
+							
+							this.isRefresh=false;
+							for (var i=0;i<list.length;i++){
+								var item=list[i];
+					//			console.log(item)
+							}
+						})
+				},
+				//点击事件的函数
+				dealScroll:function(){
+					//保存this的值    否则在函数里面会有变化
+					var self=this;
+					//入口函数   加载顺序
+					window.onload=function(){
+						//滚动事件
+						window.onscroll=function(){
+							//滚动的距离
+							var scrollTop=document.body.scrollTop;
+							//可是区域的高度   页面对应的高度
+							var clientHeight=document.documentElement.clientHeight;
+							//页面的总高度
+							var pageHeight=document.body.scrollHeight;
+					//		console.log("st"+scrollTop+"sc"+clientHeight+"ph"+pageHeight)
+							//如果页面滑到底部了
+							if (pageHeight-clientHeight-scrollTop<=2){
+								//如果变量isRefressh  不为假   也就是为真的时候    
+								if (!this.isRefresh){
+									//加载开始的位置
+									self.start += self.count;
+									self.downloadData();
+									
+									self.isRefresh = true;
+								}
+							}
+						}
+					}
+				}
+			},
+				
+		
+			created:function(){
+		/*		this.$http({url:musicListUrl}).then(function(r){
+					var jsonString=r.data;
+					var list=r.data.data;
+					console.log(list)
+					this.list=list;
+					for (var i=0;i<list.length;i++){
+						var item=list[i];
+						console.log(item)
+					}
+				})*/
+				
+				this.downloadData();
+				this.dealScroll()
+				
+				
+			}
+		})
+		
+		
+		
+//下面是别的		
+		
+		
+/*		
+		
+		
+		
+		
+		
+		齐学全 15:17:26
+if(!self.isRefresh){
+									self.start += self.count;
+									self.downloadData();
+									
+									self.isRefresh = true;
+								}
+齐学全 15:28:49
+var scrollTop = document.documentElement.scrollTop;
+								var clientHeight = document.documentElement.clientHeight;
+								var pageHeight = document.body.scrollHeight;
+齐学全 20:59:37
+.cell-img{
+                width: 100%;
+                text-align: center;
+                padding: 20px;
+                box-sizing: border-box;
+                img{
+                    width: 100%;
+                    border-radius: 50%;
+                    animation:play 10s linear infinite;
+                    @keyframes play {
+                        0%{
+                            transform: rotateZ(0deg);
+                        }
+                        100%{
+                            transform: rotateZ(360deg);
+                        }
+                    }
+                }
+            }
+ 齐学全 给您发送了 1 个文件(夹),请在右侧接收.时间 21:56:47.
+
+		
+	*/	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</script>
+</html>

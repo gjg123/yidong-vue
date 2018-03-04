@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<style type="text/css">
+			*{
+				
+				padding: 0;
+				margin: 0;
+			}
+			p{
+				padding: 0;
+				margin: 0;
+			}
+			ul{
+				list-style: none;
+			}
+			.content{
+				margin:44px 0 50px 0;
+				padding:2px 20px 0 20px;
+				background-color:#ccc;
+			}
+			.ss{
+				padding-left: 20px ;
+				width:100%;
+				height:30px;
+				margin:20px 20px 0px 20px;
+			}
+			.con-1{
+				background-color:#fff;
+				padding:10px 20px ;
+				margin:
+			}
+	/*		.con-1 span{
+				display: block;
+				height:30px;
+			}*/
+			.lt{
+				float:left;
+			}
+			.rt{
+				float:right;
+			}
+			.kkk{
+				height:50px;
+				line-height: 50px;
+			}
+			.mn img{
+				width:30px;
+				height:30px;
+				vertical-align: middle;
+			}
+			.con-2{
+				margin-top:30px;
+				height:100px;
+				background-color:#fff;
+				padding-left:20px ;
+				padding-top:10px ;
+				margin-bottom:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<navigation title="系统设置" left-img="img/aliwx_common_back_btn_normal.png" left-path="javascript:history.back()"></navigation>
+			
+			
+			<div class="content">
+				<div id="">
+					<p class="ss">设置</p>
+					<div class="con-1">
+						<div class="kkk">
+							<span class="lt">夜间模式</span>
+							<span class="rt mn"><img src="img/stow_selected.png"/></span>
+						</div>
+						<div class="kkk">
+							<span class="lt">清理缓存</span>
+							<span class="rt mn"><img src="img/aliwx_common_back_btn_normal.png"/></span>
+						</div>
+					</div>
+				</div>
+				
+				<div id="">
+					<p class="ss">反馈</p>
+					<div class="con-1">
+						<div class="kkk">
+							<span class="lt">意见与反馈</span>
+							<span class="rt mn"><img src="img/aliwx_common_back_btn_normal.png"/></span>
+						</div>
+						<div class="kkk">
+							<span class="lt">关注我们</span>
+							
+							<span class="rt mn"><img src="img/aliwx_common_back_btn_normal.png"/></span>
+						</div>
+						<div class="kkk">
+							<span class="lt">给一个评分</span>
+							
+							<span class="rt mn"><img src="img/aliwx_common_back_btn_normal.png"/></span>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div id="">
+					<p class="ss">关于</p>
+					<div class="con-1">
+						<div class="kkk">
+							<span class="lt">用户协议</span>
+							<span class="rt mn"><img src="img/stow_selected.png"/></span>
+						</div>
+						<div class="kkk">
+							<span class="lt">版本号</span>
+							<span class="rt mn"><img src="img/aliwx_common_back_btn_normal.png"/></span>
+						</div>
+					</div>
+				</div>
+				
+				<div id="">
+					
+					<div class="con-2">
+						
+							<p>退出登陆</p>
+		
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+	<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var data={
+			
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			
+		})
+	</script>
+</html>

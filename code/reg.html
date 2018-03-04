@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			a{
+				text-decoration: none;
+			}
+			body{
+				background-color:#ccc;
+			}
+			.content{
+				
+				margin:60px 20px 50px 10px;
+			}
+			.input-area{
+				
+				margin: 20px;
+				padding-left:20px ;
+				background-color:white;
+			}
+			.input-area input{
+				width:100%;
+				height:40px;
+				padding-left:30px ;
+				border:none;
+				outline: none;
+				
+			}
+			.input-area .phone{
+				border-bottom: 1px solid #ccc;
+			}
+			.btn{
+				padding: 20px 20px;
+				
+			}
+			.btn button{
+				border:none;
+				width:100%;
+				height:40px;
+				background-color:#999;
+				font-size: 22px;
+				outline: none;
+			}
+			.phone{
+				background:url(img/user.png) no-repeat 0px 5px;
+				background-size: 30px 30px;
+			}
+			.yz{
+				background:url(img/bubble_collected.png) no-repeat 0px 5px;
+				background-size: 30px 30px;
+			}
+			.send{
+				position: absolute;
+				top:30%;
+				right:10%;
+				color:blue;
+			}
+			.rr{
+				position: relative;
+			}
+			.username{
+				border-bottom:1px solid #ccc;
+			}
+			.pwd{
+				border-bottom:1px solid #ccc;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div id="app">
+			<navigation title="注册" left-img="img/aliwx_common_back_btn_normal.png" right-img="img/user.png" left-path="javascript:history.back()"></navigation>
+			
+			
+			<div class="content">
+				<div class="input-area">
+					<div class="username">
+						<input type="text" placeholder="请输入用户名" v-model="username"/>
+					</div>
+					<div class="username">
+						<input type="text" placeholder="请输昵称" v-model="Nickname"/>
+					</div>
+					
+					<div class="pwd">
+						<input type="password" placeholder="请输入密码" v-model="password"/>
+					</div>
+					<div class="password">
+						<input type="password" name="" id="" value="" v-model="repeatPassword" placeholder="请再次输入密码"/>
+					</div>
+					<div class="phone">
+											<input type="text" placeholder="手机号码" class="phone" v-model="phone"/>
+					</div>
+					<div class="rr">
+<!--						<input type="text" placeholder="短信验证码" class="yz" v-model="rep"/>
+						<a href="" class="send">发送...校验码</a>
+					</div>-->
+				</div>
+				<div class="btn">
+					<button v-on:click="dealReg">注册</button>
+					
+				</div>
+			</div>
+
+			
+
+			
+			
+			
+			
+			
+			
+			
+		</div>	
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+			<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+			<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var data={
+			username:"",
+			password:"",
+			repeatPassword:"",
+			phone:"",
+			Nickname:""
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			methods:{
+					dealReg:function () {
+						
+						var username = this.username;
+						var password = this.password
+						var repeatPassword = this.repeatPassword;
+						var phone = this.phone;
+						var Nickname=this.Nickname;
+						
+						//简单处理
+						if(username.length==0){
+							alert("请输入用户名")
+							return
+						}
+						if(password.length==0){
+							alert("请输入密码");
+							return
+						}
+						if(repeatPassword.length==0){
+							alert("请输入确认密码");
+							return
+						}
+						if(phone.length==0){
+							alert("请输入手机号");
+							return
+						}
+					
+						if(password != repeatPassword){
+							alert("密码和确认密码不一样")
+							return
+						}
+						
+						//发起登陆请求
+						var url = registerUrl+"&username="+username+"&password="+password+"&phone="+phone;
+						console.log("url = "+url)
+						
+						this.$http({url:url}).then(function (response) {
+							
+							var downloadData = response.data;
+							console.log("data = "+JSON.stringify(downloadData))
+							if(downloadData.code == 0){
+								
+								alert("注册成功,请返回登陆界面登陆")
+								location.href = "login.html"
+							}
+							//登陆失败
+							else{
+								alert("注册失败,请重新注册 desc="+downloadData.desc)
+							}
+							
+						})
+					}
+				}
+		})
+		
+	</script>
+</html>

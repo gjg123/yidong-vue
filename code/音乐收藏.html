@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<link rel="stylesheet" type="text/css" href="component/navigation.css"/>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			a{
+				text-decoration: none;
+			}
+			body{
+				background-color:#eee;
+			}
+			.content{
+				margin:50px 20px;
+			}
+		
+			.left-img{
+				float:left;
+				margin-right:20px;
+			}
+			.right-p{
+				float:left;
+			}
+			.right-p p{
+				margin:10px;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div id="app">
+			<navigation title="音乐故事收藏" left-img="img/aliwx_common_back_btn_normal.png" right-img="img/user.png" left-path="javascript:history.back()"></navigation>
+			
+			
+			<div class="content">
+				<div class="tt">
+					<div class="left-img">
+						<img src="images/Fh20xO1dkygAR7YPNJthqWkeLgYz.jpg"/>
+					</div>
+					<div class="right-p">
+						<p>B小掉与后</p>
+						<p>花花</p>
+					</div>
+				</div>
+			
+			</div>
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+	</body>
+	<script src="lib/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-resource.js" type="text/javascript" charset="utf-8"></script>
+	<script src="lib/vue/vue-router.js" type="text/javascript" charset="utf-8"></script>
+			<script src="component/navigation.js" type="text/javascript" charset="utf-8"></script>
+			<script src="interface/interface.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var data={
+	
+		}
+		var app=new Vue({
+			el:"#app",
+			data:data,
+			
+		})
+		
+	</script>
+</html>
